@@ -104,8 +104,3 @@ It should not be used in production without proper security review,
 penetration testing, and infrastructure hardening.
 
 
-====================================
-📜 License
-====================================
-
-MIT License (or replace with your preferred license)
