@@ -1,6 +1,6 @@
 import express, { Request, Response } from "express";
-import Password from "../db/models/Password.js";
-import { deriveKey, decryptPass } from "./decryptpass.js";
+import Password from "../db/models/Password";
+import { deriveKey, decryptPass } from "./decryptpass";
 
 const secret = deriveKey();
 const router = express.Router();
@@ -26,26 +26,35 @@ router.get("/passwords", async (req: Request, res: Response): Promise<void> => {
   }
 });
 
-router.post("/login", async (req: Request, res: Response): Promise<void> => {
-  try {
-    const { username, password } = req.body;
+router.post("/login", (req: Request, res: Response): void => {
+  const { username, password } = req.body;
 
-    if (!username || !password) {
-      res.status(400).json({ message: "Missing credentials" });
-      return;
-    }
-
-    if (username === process.env.LOGIN_USERNAME && password === process.env.LOGIN_PASSWORD) {
-      res.status(200).json({ success: true });
-      return;
-    }
-
-    res.status(401).json({ success: false, message: "Invalid credentials" });
-
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ success: false });
+  if (!username || !password) {
+    res.status(400).json({ message: "Missing credentials" });
+    return;
   }
+
+  if (
+    username === process.env.LOGIN_USERNAME &&
+    password === process.env.LOGIN_PASSWORD
+  ) {
+    req.session.isAuth = true; // TS now recognises this
+    res.status(200).json({ success: true });
+    return;
+  }
+
+  res.status(401).json({ success: false, message: "Invalid credentials" });
 });
+router.post("/logout", (req: Request, res: Response) => {
+  req.session.destroy(err => {
+    if (err) {
+      return res.status(500).json({ success: false });
+    }
+
+    res.clearCookie("connect.sid");
+    res.json({ success: true });
+  });
+});
+
 
 export default router;

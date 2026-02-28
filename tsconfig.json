@@ -2,16 +2,16 @@
   "compilerOptions": {
     "rootDir": "./src",
     "outDir": "./dist",
-
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-
+    "typeRoots": ["./node_modules/@types", "./src/types"],
+    "module": "CommonJS",
+    "moduleResolution": "Node",
     "target": "ES2022",
-    "allowJs": true,
 
+    "esModuleInterop": true,
+    "allowJs": true,
     "strict": true,
     "skipLibCheck": true
   },
-  "include": ["src/**/*"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts"],
   "exclude": ["node_modules", "dist"]
 }

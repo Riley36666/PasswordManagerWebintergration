@@ -1,13 +1,12 @@
 {
   "name": "web-interface",
   "version": "1.0.0",
-  "type": "module",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node dist/server.js",
     "build": "tsc",
-    "dev": "nodemon --watch src --ext ts --exec \"node --loader ts-node/esm\" src/server.ts"
+    "dev": "nodemon --watch src --exec ts-node --files src/server.ts"
   },
   "author": "",
   "license": "ISC",
@@ -15,10 +14,12 @@
   "dependencies": {
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
+    "express-session": "^1.19.0",
     "fernet": "^0.3.3"
   },
   "devDependencies": {
     "@types/express": "^5.0.6",
+    "@types/express-session": "^1.18.2",
     "@types/fernet": "^0.4.3",
     "@types/mongoose": "^5.11.96",
     "@types/node": "^25.3.2",

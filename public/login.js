@@ -6,6 +6,7 @@ function login() {
 }
 
 
+
 function checkPass(username, password) {
     fetch('api/login', {
         method: "POST",
@@ -30,9 +31,6 @@ function checkPass(username, password) {
 }
 
 
-
-
-
 form.addEventListener('submit', function(event) {
     event.preventDefault(); 
 
@@ -46,5 +44,5 @@ form.addEventListener('submit', function(event) {
     }
 
     checkPass(username, password)
-
 });
+
