@@ -5,7 +5,7 @@ import { connectDB } from "./db/connect";
 import passwordRouter from "./logic/api";
 import dotenv = require("dotenv");
 import type { Request, Response, NextFunction } from "express";
-
+import cors from "cors";
 dotenv.config();
 
 const app = express();
@@ -27,6 +27,13 @@ function requireAuth(req: Request, res: Response, next: NextFunction) {
   return res.status(401).send("Unauthorized");
 }
 
+
+app.use(
+  cors({
+    origin: true,
+    credentials: true,
+  })
+);
 app.use(express.static("public"));
 app.use(express.static("private"));
 app.use(express.json());
@@ -43,7 +50,7 @@ app.use("/api", passwordRouter);
 
 async function startServer() {
   await connectDB(process.env.DB as string);
-  app.listen(port, () => {
+  app.listen(port,"0.0.0.0",  () => {
     console.log(`🚀 Server running on http://localhost:${port}`);
   });
 }
