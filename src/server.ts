@@ -17,11 +17,17 @@ const port = Number(process.env.PORT) || 3000;
 
 
 app.use(express.static('public'));
+app.use(express.static('private'));
 app.use(express.json());
 
 app.get("/", (req: Request, res: Response) => {
-  res.sendFile(path.join(__dirname, "public/index.html"));
+  res.sendFile(path.join(__dirname, "../public/login.html"));
 });
+
+// NEED TO CHANGE TO MAKE IT NOT PUBLIC
+app.get("/password", (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, "../private/password.html"))
+})
 app.use("/api", passwordRouter);
 async function startServer() {
     await connectDB(process.env.DB as string);

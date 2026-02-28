@@ -26,4 +26,26 @@ router.get("/passwords", async (req: Request, res: Response): Promise<void> => {
   }
 });
 
+router.post("/login", async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { username, password } = req.body;
+
+    if (!username || !password) {
+      res.status(400).json({ message: "Missing credentials" });
+      return;
+    }
+
+    if (username === process.env.LOGIN_USERNAME && password === process.env.LOGIN_PASSWORD) {
+      res.status(200).json({ success: true });
+      return;
+    }
+
+    res.status(401).json({ success: false, message: "Invalid credentials" });
+
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false });
+  }
+});
+
 export default router;
